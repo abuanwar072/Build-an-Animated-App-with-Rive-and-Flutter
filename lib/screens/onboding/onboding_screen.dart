@@ -51,57 +51,91 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
               child: const SizedBox(),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Spacer(),
-              GestureDetector(
-                onTap: () {
-                  _btnAnimationController.isActive = true;
-                },
-                child: SizedBox(
-                  height: 64,
-                  width: 236,
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(),
+                  SizedBox(
+                    width: 260,
+                    child: Column(
+                      children: const [
+                        Text(
+                          "Learn design & code",
+                          style: TextStyle(
+                            fontSize: 60,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Poppins",
+                            height: 1.2,
+                          ),
                         ),
-                      ),
-                      Positioned.fill(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: const SizedBox(),
+                        SizedBox(height: 16),
+                        Text(
+                          "Don’t skip design. Learn design and code, by building real apps with Flutter and Swift. Complete courses about the best tools.",
                         ),
-                      ),
-                      RiveAnimation.asset(
-                        "assets/RiveAssets/button.riv",
-                        controllers: [_btnAnimationController],
-                      ),
-                      Positioned.fill(
-                        top: 8,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(CupertinoIcons.arrow_right),
-                            const SizedBox(width: 8),
-                            Text(
-                              "Start the course",
-                              style: Theme.of(context).textTheme.button,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                  const Spacer(flex: 2),
+                  AnimatedBtn(btnAnimationController: _btnAnimationController),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Text(
+                        "Purchase includes access to 30+ courses, 240+ premium tutorials, 120+ hours of videos, source files and certificates."),
+                  )
+                ],
               ),
-            ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AnimatedBtn extends StatelessWidget {
+  const AnimatedBtn({
+    Key? key,
+    required RiveAnimationController btnAnimationController,
+  })  : _btnAnimationController = btnAnimationController,
+        super(key: key);
+
+  final RiveAnimationController _btnAnimationController;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        _btnAnimationController.isActive = true;
+      },
+      child: SizedBox(
+        height: 64,
+        width: 236,
+        child: Stack(
+          children: [
+            RiveAnimation.asset(
+              "assets/RiveAssets/button.riv",
+              controllers: [_btnAnimationController],
+            ),
+            Positioned.fill(
+              top: 8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(CupertinoIcons.arrow_right),
+                  const SizedBox(width: 8),
+                  Text(
+                    "Start the course",
+                    style: Theme.of(context).textTheme.button,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
