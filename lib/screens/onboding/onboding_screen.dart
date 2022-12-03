@@ -20,6 +20,12 @@ class OnbodingScreen extends StatelessWidget {
               "assets/Backgrounds/Spline.png",
             ),
           ),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: const SizedBox(),
+            ),
+          ),
           const RiveAnimation.asset(
             "assets/RiveAssets/shapes.riv",
           ),
