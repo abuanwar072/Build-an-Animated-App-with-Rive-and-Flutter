@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 import 'components/animated_btn.dart';
+import 'components/sign_in_dialog.dart';
 
 class OnbodingScreen extends StatefulWidget {
   const OnbodingScreen({super.key});
@@ -80,7 +81,24 @@ class _OnbodingScreenState extends State<OnbodingScreen> {
                     ),
                   ),
                   const Spacer(flex: 2),
-                  AnimatedBtn(btnAnimationController: _btnAnimationController),
+                  AnimatedBtn(
+                    btnAnimationController: _btnAnimationController,
+                    press: () {
+                      _btnAnimationController.isActive = true;
+
+                      Future.delayed(
+                        const Duration(milliseconds: 800),
+                        () {
+                          showCustomDialog(
+                            context,
+                            onValue: (_) {
+                              print("Closed");
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 24),
                     child: Text(
