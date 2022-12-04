@@ -1,11 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
-
-import 'sign_in_form.dart';
 
 class AnimatedBtn extends StatelessWidget {
   const AnimatedBtn({

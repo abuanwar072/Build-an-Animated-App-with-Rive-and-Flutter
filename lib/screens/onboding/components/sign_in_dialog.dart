@@ -139,10 +139,10 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
       // if (anim.status == AnimationStatus.reverse) {
       //   tween = Tween(begin: const Offset(0, 1), end: Offset.zero);
       // } else {
-      //   tween = Tween(begin: const Offset(0, 1), end: Offset.zero);
+      //   tween = Tween(begin: const Offset(0, -1), end: Offset.zero);
       // }
 
-      tween = Tween(begin: const Offset(0, 1), end: Offset.zero);
+      tween = Tween(begin: const Offset(0, -1), end: Offset.zero);
 
       return SlideTransition(
         position: tween.animate(
