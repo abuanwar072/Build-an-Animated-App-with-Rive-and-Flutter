@@ -19,9 +19,11 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
+          errorStyle: TextStyle(height: 0),
           border: defaultInputBorder,
           enabledBorder: defaultInputBorder,
           focusedBorder: defaultInputBorder,
+          errorBorder: defaultInputBorder,
         ),
       ),
       home: const OnbodingScreen(),
