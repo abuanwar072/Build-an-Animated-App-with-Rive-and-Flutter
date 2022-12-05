@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
+import 'package:rive_animation/screens/entry_point.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -38,6 +39,51 @@ class _SignInFormState extends State<SignInForm> {
     artboard.addController(controller!);
 
     confetti = controller.findInput<bool>("Trigger explosion") as SMITrigger;
+  }
+
+  void singIn(BuildContext context) {
+    // confetti.fire();
+    setState(() {
+      isShowConfetti = true;
+      isShowLoading = true;
+    });
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        if (_formKey.currentState!.validate()) {
+          success.fire();
+          Future.delayed(
+            const Duration(seconds: 2),
+            () {
+              setState(() {
+                isShowLoading = false;
+              });
+              confetti.fire();
+              // Navigate & hide confetti
+              Future.delayed(Duration(seconds: 1), () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EntryPoint(),
+                  ),
+                );
+              });
+            },
+          );
+        } else {
+          error.fire();
+          Future.delayed(
+            const Duration(seconds: 2),
+            () {
+              setState(() {
+                isShowLoading = false;
+              });
+              reset.fire();
+            },
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -100,52 +146,20 @@ class _SignInFormState extends State<SignInForm> {
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // confetti.fire();
-                    setState(() {
-                      isShowConfetti = true;
-                      isShowLoading = true;
-                    });
-                    Future.delayed(
-                      const Duration(seconds: 1),
-                      () {
-                        if (_formKey.currentState!.validate()) {
-                          success.fire();
-                          Future.delayed(
-                            const Duration(seconds: 2),
-                            () {
-                              setState(() {
-                                isShowLoading = false;
-                              });
-                              confetti.fire();
-                              // Navigate & hide confetti
-                            },
-                          );
-                        } else {
-                          error.fire();
-                          Future.delayed(
-                            const Duration(seconds: 2),
-                            () {
-                              setState(() {
-                                isShowLoading = false;
-                              });
-                              reset.fire();
-                            },
-                          );
-                        }
-                      },
-                    );
+                    singIn(context);
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF77D8E),
-                      minimumSize: const Size(double.infinity, 56),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
-                          bottomLeft: Radius.circular(25),
-                        ),
-                      )),
+                    backgroundColor: const Color(0xFFF77D8E),
+                    minimumSize: const Size(double.infinity, 56),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(25),
+                        bottomRight: Radius.circular(25),
+                        bottomLeft: Radius.circular(25),
+                      ),
+                    ),
+                  ),
                   icon: const Icon(
                     CupertinoIcons.arrow_right,
                     color: Color(0xFFFE0037),
@@ -157,47 +171,52 @@ class _SignInFormState extends State<SignInForm> {
           ),
         ),
         isShowLoading
-            ? Positioned.fill(
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: RiveAnimation.asset(
-                        'assets/RiveAssets/check.riv',
-                        fit: BoxFit.cover,
-                        onInit: _onCheckRiveInit,
-                      ),
-                    ),
-                    const Spacer(flex: 2)
-                  ],
+            ? CustomPositioned(
+                child: RiveAnimation.asset(
+                  'assets/RiveAssets/check.riv',
+                  fit: BoxFit.cover,
+                  onInit: _onCheckRiveInit,
                 ),
               )
             : const SizedBox(),
         isShowConfetti
-            ? Positioned.fill(
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Transform.scale(
-                        scale: 6,
-                        child: RiveAnimation.asset(
-                          "assets/RiveAssets/confetti.riv",
-                          onInit: _onConfettiRiveInit,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const Spacer(flex: 2),
-                  ],
+            ? CustomPositioned(
+                scale: 6,
+                child: RiveAnimation.asset(
+                  "assets/RiveAssets/confetti.riv",
+                  onInit: _onConfettiRiveInit,
+                  fit: BoxFit.cover,
                 ),
               )
             : const SizedBox(),
       ],
+    );
+  }
+}
+
+class CustomPositioned extends StatelessWidget {
+  const CustomPositioned({super.key, this.scale = 1, required this.child});
+
+  final double scale;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: Column(
+        children: [
+          const Spacer(),
+          SizedBox(
+            height: 100,
+            width: 100,
+            child: Transform.scale(
+              scale: scale,
+              child: child,
+            ),
+          ),
+          const Spacer(flex: 2),
+        ],
+      ),
     );
   }
 }
