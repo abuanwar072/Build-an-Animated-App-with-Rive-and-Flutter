@@ -10,6 +10,7 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
+  int selctedTab = 0;
   late SMIBool chat;
   late SMIBool search;
   late SMIBool timer;
@@ -35,115 +36,199 @@ class _EntryPointState extends State<EntryPoint> {
     );
   }
 
+  void updateTabIndex(int index) {
+    if (selctedTab != index) {
+      setState(() {
+        selctedTab = index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding:
+              const EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 12),
           margin: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
-              color: backgroundColor2.withOpacity(0.8),
-              borderRadius: const BorderRadius.all(Radius.circular(24)),
-              boxShadow: [
-                BoxShadow(
-                  color: backgroundColor2.withOpacity(0.3),
-                  offset: const Offset(0, 20),
-                  blurRadius: 20,
-                ),
-              ]),
+            color: backgroundColor2.withOpacity(0.8),
+            borderRadius: const BorderRadius.all(Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: backgroundColor2.withOpacity(0.3),
+                offset: const Offset(0, 20),
+                blurRadius: 20,
+              ),
+            ],
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
                 onTap: () {
                   chnageState(chat);
+                  updateTabIndex(0);
                 },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    "assets/RiveAssets/icons.riv",
-                    artboard: "CHAT",
-                    onInit: (artboard) {
-                      chat = getRiveInput(artboard,
-                          stateMachineName: "CHAT_Interactivity");
-                    },
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBar(isActive: selctedTab == 0),
+                    SizedBox(
+                      height: 36,
+                      width: 36,
+                      child: Opacity(
+                        opacity: selctedTab == 0 ? 1 : 0.5,
+                        child: RiveAnimation.asset(
+                          "assets/RiveAssets/icons.riv",
+                          artboard: "CHAT",
+                          onInit: (artboard) {
+                            chat = getRiveInput(artboard,
+                                stateMachineName: "CHAT_Interactivity");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               GestureDetector(
                 onTap: () {
                   chnageState(search);
+                  updateTabIndex(1);
                 },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    "assets/RiveAssets/icons.riv",
-                    artboard: "SEARCH",
-                    onInit: (artboard) {
-                      search = getRiveInput(artboard,
-                          stateMachineName: "SEARCH_Interactivity");
-                    },
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBar(isActive: selctedTab == 1),
+                    SizedBox(
+                      height: 36,
+                      width: 36,
+                      child: Opacity(
+                        opacity: selctedTab == 1 ? 1 : 0.5,
+                        child: RiveAnimation.asset(
+                          "assets/RiveAssets/icons.riv",
+                          artboard: "SEARCH",
+                          onInit: (artboard) {
+                            search = getRiveInput(artboard,
+                                stateMachineName: "SEARCH_Interactivity");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               GestureDetector(
                 onTap: () {
                   chnageState(timer);
+                  updateTabIndex(2);
                 },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    "assets/RiveAssets/icons.riv",
-                    artboard: "TIMER",
-                    onInit: (artboard) {
-                      timer = getRiveInput(artboard,
-                          stateMachineName: "TIMER_Interactivity");
-                    },
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBar(isActive: selctedTab == 2),
+                    SizedBox(
+                      height: 36,
+                      width: 36,
+                      child: Opacity(
+                        opacity: selctedTab == 2 ? 1 : 0.5,
+                        child: RiveAnimation.asset(
+                          "assets/RiveAssets/icons.riv",
+                          artboard: "TIMER",
+                          onInit: (artboard) {
+                            timer = getRiveInput(artboard,
+                                stateMachineName: "TIMER_Interactivity");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               GestureDetector(
                 onTap: () {
                   chnageState(bell);
+                  updateTabIndex(3);
                 },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    "assets/RiveAssets/icons.riv",
-                    artboard: "BELL",
-                    onInit: (artboard) {
-                      bell = getRiveInput(artboard,
-                          stateMachineName: "BELL_Interactivity");
-                    },
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBar(isActive: selctedTab == 3),
+                    SizedBox(
+                      height: 36,
+                      width: 36,
+                      child: Opacity(
+                        opacity: selctedTab == 3 ? 1 : 0.5,
+                        child: RiveAnimation.asset(
+                          "assets/RiveAssets/icons.riv",
+                          artboard: "BELL",
+                          onInit: (artboard) {
+                            bell = getRiveInput(artboard,
+                                stateMachineName: "BELL_Interactivity");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               GestureDetector(
                 onTap: () {
                   chnageState(user);
+                  updateTabIndex(4);
                 },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    "assets/RiveAssets/icons.riv",
-                    artboard: "USER",
-                    onInit: (artboard) {
-                      user = getRiveInput(artboard,
-                          stateMachineName: "USER_Interactivity");
-                    },
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBar(isActive: selctedTab == 4),
+                    SizedBox(
+                      height: 36,
+                      width: 36,
+                      child: Opacity(
+                        opacity: selctedTab == 4 ? 1 : 0.5,
+                        child: RiveAnimation.asset(
+                          "assets/RiveAssets/icons.riv",
+                          artboard: "USER",
+                          onInit: (artboard) {
+                            user = getRiveInput(artboard,
+                                stateMachineName: "USER_Interactivity");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class AnimatedBar extends StatelessWidget {
+  const AnimatedBar({
+    Key? key,
+    required this.isActive,
+  }) : super(key: key);
+
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      margin: EdgeInsets.only(bottom: 2),
+      duration: Duration(milliseconds: 200),
+      height: 4,
+      width: isActive ? 20 : 0,
+      decoration: const BoxDecoration(
+          color: Color(0xFF81B4FF),
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          )),
     );
   }
 }
