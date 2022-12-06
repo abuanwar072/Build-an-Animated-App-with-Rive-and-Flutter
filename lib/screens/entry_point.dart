@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 
@@ -11,6 +12,9 @@ class EntryPoint extends StatefulWidget {
 
 class _EntryPointState extends State<EntryPoint> {
   int selctedTab = 0;
+  bool isOpen = false;
+
+  late SMIBool isMenuOpenInput;
   late SMIBool chat;
   late SMIBool search;
   late SMIBool timer;
@@ -47,6 +51,64 @@ class _EntryPointState extends State<EntryPoint> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            isMenuOpenInput.value = !isMenuOpenInput.value;
+          },
+          child: Container(
+            margin: const EdgeInsets.only(left: 12),
+            height: 48,
+            width: 48,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 3),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: RiveAnimation.asset(
+              "assets/RiveAssets/menu_button.riv",
+              onInit: (artboard) {
+                final controller = StateMachineController.fromArtboard(
+                    artboard, "State Machine");
+
+                artboard.addController(controller!);
+
+                isMenuOpenInput =
+                    controller.findInput<bool>("isOpen") as SMIBool;
+                isMenuOpenInput.value = true;
+              },
+            ),
+          ),
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            padding: EdgeInsets.all(8),
+            height: 42,
+            width: 42,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 3),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: SvgPicture.asset("assets/icons/User.svg"),
+          ),
+        ],
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           padding:
@@ -220,8 +282,8 @@ class AnimatedBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      margin: EdgeInsets.only(bottom: 2),
-      duration: Duration(milliseconds: 200),
+      margin: const EdgeInsets.only(bottom: 2),
+      duration: const Duration(milliseconds: 200),
       height: 4,
       width: isActive ? 20 : 0,
       decoration: const BoxDecoration(
