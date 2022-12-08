@@ -13,8 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'The Flutter Way',
       theme: ThemeData(
+        scaffoldBackgroundColor: Color(0xFFEEF1F8),
         primarySwatch: Colors.blue,
         fontFamily: "Intel",
         inputDecorationTheme: InputDecorationTheme(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const EntryPoint(),
+      home: const OnbodingScreen(),
     );
   }
 }

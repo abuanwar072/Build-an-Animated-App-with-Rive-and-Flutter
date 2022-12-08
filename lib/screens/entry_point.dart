@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
+import 'package:rive_animation/screens/home/home_screen.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -109,6 +110,7 @@ class _EntryPointState extends State<EntryPoint> {
           ),
         ],
       ),
+      body: HomePage(),
       bottomNavigationBar: SafeArea(
         child: Container(
           padding:

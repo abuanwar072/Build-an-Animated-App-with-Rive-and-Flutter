@@ -62,12 +62,12 @@ class _SignInFormState extends State<SignInForm> {
               // Navigate & hide confetti
               Future.delayed(const Duration(seconds: 1), () {
                 // Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const EntryPoint(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const EntryPoint(),
+                //   ),
+                // );
               });
             },
           );
