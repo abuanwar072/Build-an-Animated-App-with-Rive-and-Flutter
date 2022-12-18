@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
-import 'package:rive_animation/screens/home/home_screen.dart';
+
+import '../model/menu.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -15,6 +16,8 @@ class EntryPoint extends StatefulWidget {
 class _EntryPointState extends State<EntryPoint> {
   int selctedTab = 0;
   bool isOpen = false;
+
+  Menu selectedBottonNav = bottomNavItems.first;
 
   late SMIBool isMenuOpenInput;
   late SMIBool chat;
@@ -42,10 +45,10 @@ class _EntryPointState extends State<EntryPoint> {
     );
   }
 
-  void updateTabIndex(int index) {
-    if (selctedTab != index) {
+  void updateSelectedBtmNav(Menu menu) {
+    if (selectedBottonNav != menu) {
       setState(() {
-        selctedTab = index;
+        selectedBottonNav = menu;
       });
     }
   }
@@ -143,44 +146,53 @@ class _EntryPointState extends State<EntryPoint> {
                     style: TextStyle(color: Colors.white70),
                   ),
                 ),
-                Text(
-                  "Browse".toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.white70),
-                ),
-                const Divider(
-                  color: Colors.white24,
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+                  child: Text(
+                    "Browse".toUpperCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Colors.white70),
+                  ),
                 ),
                 ...sidebarMenus
                     .map(
-                      (menu) => ListTile(
-                        onTap: () {
-                          menu.rive.status!.change(true);
-                          Future.delayed(
-                            const Duration(seconds: 2),
-                            () {
-                              menu.rive.status!.change(false);
-                            },
-                          );
-                        },
-                        leading: SizedBox(
-                          height: 36,
-                          width: 36,
-                          child: RiveAnimation.asset(
-                            menu.rive.src,
-                            artboard: menu.rive.artboard,
-                            onInit: (artboard) {
-                              menu.rive.status = getRiveInput(artboard,
-                                  stateMachineName: menu.rive.stateMachineName);
-                            },
+                      (menu) => Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 24),
+                            child: Divider(color: Colors.white24, height: 1),
                           ),
-                        ),
-                        title: Text(
-                          menu.title,
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                          ListTile(
+                            onTap: () {
+                              menu.rive.status!.change(true);
+                              Future.delayed(
+                                const Duration(seconds: 2),
+                                () {
+                                  menu.rive.status!.change(false);
+                                },
+                              );
+                            },
+                            leading: SizedBox(
+                              height: 36,
+                              width: 36,
+                              child: RiveAnimation.asset(
+                                menu.rive.src,
+                                artboard: menu.rive.artboard,
+                                onInit: (artboard) {
+                                  menu.rive.status = getRiveInput(artboard,
+                                      stateMachineName:
+                                          menu.rive.stateMachineName);
+                                },
+                              ),
+                            ),
+                            title: Text(
+                              menu.title,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                     .toList(),
@@ -208,140 +220,39 @@ class _EntryPointState extends State<EntryPoint> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
-                  chnageState(chat);
-                  updateTabIndex(0);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedBar(isActive: selctedTab == 0),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: Opacity(
-                        opacity: selctedTab == 0 ? 1 : 0.5,
-                        child: RiveAnimation.asset(
-                          "assets/RiveAssets/icons.riv",
-                          artboard: "CHAT",
-                          onInit: (artboard) {
-                            chat = getRiveInput(artboard,
-                                stateMachineName: "CHAT_Interactivity");
-                          },
+              ...List.generate(
+                bottomNavItems.length,
+                (index) {
+                  Menu navBar = bottomNavItems[index];
+                  return GestureDetector(
+                    onTap: () {
+                      chnageState(navBar.rive.status!);
+                      updateSelectedBtmNav(navBar);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AnimatedBar(isActive: selectedBottonNav == navBar),
+                        SizedBox(
+                          height: 36,
+                          width: 36,
+                          child: Opacity(
+                            opacity: selctedTab == 0 ? 1 : 0.5,
+                            child: RiveAnimation.asset(
+                              navBar.rive.src,
+                              artboard: navBar.rive.artboard,
+                              onInit: (artboard) {
+                                navBar.rive.status = getRiveInput(artboard,
+                                    stateMachineName:
+                                        navBar.rive.stateMachineName);
+                              },
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  chnageState(search);
-                  updateTabIndex(1);
+                  );
                 },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedBar(isActive: selctedTab == 1),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: Opacity(
-                        opacity: selctedTab == 1 ? 1 : 0.5,
-                        child: RiveAnimation.asset(
-                          "assets/RiveAssets/icons.riv",
-                          artboard: "SEARCH",
-                          onInit: (artboard) {
-                            search = getRiveInput(artboard,
-                                stateMachineName: "SEARCH_Interactivity");
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  chnageState(timer);
-                  updateTabIndex(2);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedBar(isActive: selctedTab == 2),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: Opacity(
-                        opacity: selctedTab == 2 ? 1 : 0.5,
-                        child: RiveAnimation.asset(
-                          "assets/RiveAssets/icons.riv",
-                          artboard: "TIMER",
-                          onInit: (artboard) {
-                            timer = getRiveInput(artboard,
-                                stateMachineName: "TIMER_Interactivity");
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  chnageState(bell);
-                  updateTabIndex(3);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedBar(isActive: selctedTab == 3),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: Opacity(
-                        opacity: selctedTab == 3 ? 1 : 0.5,
-                        child: RiveAnimation.asset(
-                          "assets/RiveAssets/icons.riv",
-                          artboard: "BELL",
-                          onInit: (artboard) {
-                            bell = getRiveInput(artboard,
-                                stateMachineName: "BELL_Interactivity");
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  chnageState(user);
-                  updateTabIndex(4);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedBar(isActive: selctedTab == 4),
-                    SizedBox(
-                      height: 36,
-                      width: 36,
-                      child: Opacity(
-                        opacity: selctedTab == 4 ? 1 : 0.5,
-                        child: RiveAnimation.asset(
-                          "assets/RiveAssets/icons.riv",
-                          artboard: "USER",
-                          onInit: (artboard) {
-                            user = getRiveInput(artboard,
-                                stateMachineName: "USER_Interactivity");
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),
@@ -373,58 +284,4 @@ class AnimatedBar extends StatelessWidget {
           )),
     );
   }
-}
-
-class RiveModel {
-  final String src, artboard, stateMachineName;
-  late SMIBool? status;
-
-  RiveModel({
-    required this.src,
-    required this.artboard,
-    required this.stateMachineName,
-    this.status,
-  });
-
-  set setStatus(SMIBool state) {
-    status = state;
-  }
-}
-
-List<Menu> sidebarMenus = [
-  Menu(
-    title: "Home",
-    rive: RiveModel(
-        src: "assets/RiveAssets/icons.riv",
-        artboard: "HOME",
-        stateMachineName: "HOME_interactivity"),
-  ),
-  Menu(
-    title: "Search",
-    rive: RiveModel(
-        src: "assets/RiveAssets/icons.riv",
-        artboard: "SEARCH",
-        stateMachineName: "SEARCH_Interactivity"),
-  ),
-  Menu(
-    title: "Favorites",
-    rive: RiveModel(
-        src: "assets/RiveAssets/icons.riv",
-        artboard: "LIKE/STAR",
-        stateMachineName: "STAR_Interactivity"),
-  ),
-  Menu(
-    title: "Help",
-    rive: RiveModel(
-        src: "assets/RiveAssets/icons.riv",
-        artboard: "CHAT",
-        stateMachineName: "CHAT_Interactivity"),
-  ),
-];
-
-class Menu {
-  final String title;
-  final RiveModel rive;
-
-  Menu({required this.title, required this.rive});
 }
