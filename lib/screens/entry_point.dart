@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
@@ -92,7 +93,7 @@ class _EntryPointState extends State<EntryPoint> {
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 12),
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             height: 42,
             width: 42,
             decoration: const BoxDecoration(
@@ -110,7 +111,84 @@ class _EntryPointState extends State<EntryPoint> {
           ),
         ],
       ),
-      body: HomePage(),
+      body: SafeArea(
+        child: Container(
+          width: 288,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            color: Color(0xFF17203A),
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
+          ),
+          child: DefaultTextStyle(
+            style: const TextStyle(color: Colors.white),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.white24,
+                    child: Icon(
+                      CupertinoIcons.person,
+                      color: Colors.white,
+                    ),
+                  ),
+                  title: Text(
+                    "Abu Anwar",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  subtitle: Text(
+                    "YouTuber",
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ),
+                Text(
+                  "Browse".toUpperCase(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: Colors.white70),
+                ),
+                const Divider(
+                  color: Colors.white24,
+                ),
+                ...sidebarMenus
+                    .map(
+                      (menu) => ListTile(
+                        onTap: () {
+                          menu.rive.status!.change(true);
+                          Future.delayed(
+                            const Duration(seconds: 2),
+                            () {
+                              menu.rive.status!.change(false);
+                            },
+                          );
+                        },
+                        leading: SizedBox(
+                          height: 36,
+                          width: 36,
+                          child: RiveAnimation.asset(
+                            menu.rive.src,
+                            artboard: menu.rive.artboard,
+                            onInit: (artboard) {
+                              menu.rive.status = getRiveInput(artboard,
+                                  stateMachineName: menu.rive.stateMachineName);
+                            },
+                          ),
+                        ),
+                        title: Text(
+                          menu.title,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ],
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           padding:
@@ -295,4 +373,58 @@ class AnimatedBar extends StatelessWidget {
           )),
     );
   }
+}
+
+class RiveModel {
+  final String src, artboard, stateMachineName;
+  late SMIBool? status;
+
+  RiveModel({
+    required this.src,
+    required this.artboard,
+    required this.stateMachineName,
+    this.status,
+  });
+
+  set setStatus(SMIBool state) {
+    status = state;
+  }
+}
+
+List<Menu> sidebarMenus = [
+  Menu(
+    title: "Home",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "HOME",
+        stateMachineName: "HOME_interactivity"),
+  ),
+  Menu(
+    title: "Search",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "SEARCH",
+        stateMachineName: "SEARCH_Interactivity"),
+  ),
+  Menu(
+    title: "Favorites",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "LIKE/STAR",
+        stateMachineName: "STAR_Interactivity"),
+  ),
+  Menu(
+    title: "Help",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "CHAT",
+        stateMachineName: "CHAT_Interactivity"),
+  ),
+];
+
+class Menu {
+  final String title;
+  final RiveModel rive;
+
+  Menu({required this.title, required this.rive});
 }
