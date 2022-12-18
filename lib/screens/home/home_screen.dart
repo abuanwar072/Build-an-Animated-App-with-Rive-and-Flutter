@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
+import '../../model/course.dart';
+import 'components/course_card.dart';
+import 'components/secondary_course_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -7,70 +10,60 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text(
-            "Courses",
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            height: 300,
-            width: 260,
-            decoration: BoxDecoration(
-              color: Color(0xFF7553F6),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                "Courses",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 6, right: 8),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Animations in SwiftUI",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: courses
+                    .map(
+                      (course) => Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: CourseCard(
+                          title: course.title,
+                          iconSrc: course.iconSrc,
+                          color: course.color,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 12, bottom: 8),
-                          child: Text(
-                            "Build and animate an iOS app from scratch",
-                            style: TextStyle(
-                              color: Colors.white38,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "61 SECTIONS - 11 HOURS",
-                          style: TextStyle(
-                            color: Colors.white38,
-                          ),
-                        ),
-                        Spacer(),
-                        // CircleAvatar(
-                        //   backgroundImage: DecorationImage(),
-                        // )
-                      ],
-                    ),
-                  ),
-                ),
-                SvgPicture.asset(
-                  "assets/icons/ios.svg",
-                ),
-              ],
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                "Recent",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ...recentCourses
+                .map((course) => Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 20),
+                      child: SecondaryCourseCard(
+                        title: course.title,
+                        iconsSrc: course.iconSrc,
+                        colorl: course.color,
+                      ),
+                    ))
+                .toList(),
+          ],
+        ),
       ),
     );
   }
