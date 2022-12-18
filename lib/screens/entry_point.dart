@@ -18,13 +18,9 @@ class _EntryPointState extends State<EntryPoint> {
   bool isOpen = false;
 
   Menu selectedBottonNav = bottomNavItems.first;
+  Menu selectedSideMenu = sidebarMenus.first;
 
   late SMIBool isMenuOpenInput;
-  late SMIBool chat;
-  late SMIBool search;
-  late SMIBool timer;
-  late SMIBool bell;
-  late SMIBool user;
 
   SMIBool getRiveInput(Artboard artboard, {required String stateMachineName}) {
     StateMachineController? controller =
@@ -164,33 +160,54 @@ class _EntryPointState extends State<EntryPoint> {
                             padding: EdgeInsets.only(left: 24),
                             child: Divider(color: Colors.white24, height: 1),
                           ),
-                          ListTile(
-                            onTap: () {
-                              menu.rive.status!.change(true);
-                              Future.delayed(
-                                const Duration(seconds: 2),
-                                () {
-                                  menu.rive.status!.change(false);
-                                },
-                              );
-                            },
-                            leading: SizedBox(
-                              height: 36,
-                              width: 36,
-                              child: RiveAnimation.asset(
-                                menu.rive.src,
-                                artboard: menu.rive.artboard,
-                                onInit: (artboard) {
-                                  menu.rive.status = getRiveInput(artboard,
-                                      stateMachineName:
-                                          menu.rive.stateMachineName);
-                                },
+                          Stack(
+                            children: [
+                              AnimatedPositioned(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.fastOutSlowIn,
+                                width: selectedSideMenu == menu ? 288 : 0,
+                                height: 56,
+                                left: 0,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFF6792FF),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                ),
                               ),
-                            ),
-                            title: Text(
-                              menu.title,
-                              style: const TextStyle(color: Colors.white),
-                            ),
+                              ListTile(
+                                onTap: () {
+                                  menu.rive.status!.change(true);
+                                  setState(() {
+                                    selectedSideMenu = menu;
+                                  });
+                                  Future.delayed(
+                                    const Duration(seconds: 2),
+                                    () {
+                                      menu.rive.status!.change(false);
+                                    },
+                                  );
+                                },
+                                leading: SizedBox(
+                                  height: 36,
+                                  width: 36,
+                                  child: RiveAnimation.asset(
+                                    menu.rive.src,
+                                    artboard: menu.rive.artboard,
+                                    onInit: (artboard) {
+                                      menu.rive.status = getRiveInput(artboard,
+                                          stateMachineName:
+                                              menu.rive.stateMachineName);
+                                    },
+                                  ),
+                                ),
+                                title: Text(
+                                  menu.title,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

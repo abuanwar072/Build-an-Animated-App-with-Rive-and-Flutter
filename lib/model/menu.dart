@@ -36,13 +36,6 @@ List<Menu> sidebarMenus = [
         artboard: "BELL",
         stateMachineName: "BELL_Interactivity"),
   ),
-  Menu(
-    title: "Notification",
-    rive: RiveModel(
-        src: "assets/RiveAssets/icons.riv",
-        artboard: "BELL",
-        stateMachineName: "BELL_Interactivity"),
-  ),
 ];
 
 List<Menu> bottomNavItems = [
