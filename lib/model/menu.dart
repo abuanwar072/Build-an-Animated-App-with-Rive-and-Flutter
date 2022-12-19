@@ -30,21 +30,21 @@ List<Menu> sidebarMenus = [
         stateMachineName: "STAR_Interactivity"),
   ),
   Menu(
-    title: "Notification",
+    title: "Help",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
-        artboard: "BELL",
-        stateMachineName: "BELL_Interactivity"),
+        artboard: "CHAT",
+        stateMachineName: "CHAT_Interactivity"),
   ),
 ];
 
 List<Menu> bottomNavItems = [
   Menu(
-    title: "Home",
+    title: "Chat",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
-        artboard: "HOME",
-        stateMachineName: "HOME_interactivity"),
+        artboard: "CHAT",
+        stateMachineName: "CHAT_Interactivity"),
   ),
   Menu(
     title: "Search",
