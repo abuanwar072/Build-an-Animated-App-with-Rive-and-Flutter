@@ -37,6 +37,22 @@ List<Menu> sidebarMenus = [
         stateMachineName: "CHAT_Interactivity"),
   ),
 ];
+List<Menu> sidebarMenus2 = [
+  Menu(
+    title: "History",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "TIMER",
+        stateMachineName: "TIMER_Interactivity"),
+  ),
+  Menu(
+    title: "Notifications",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "BELL",
+        stateMachineName: "BELL_Interactivity"),
+  ),
+];
 
 List<Menu> bottomNavItems = [
   Menu(

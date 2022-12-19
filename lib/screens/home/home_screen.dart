@@ -10,59 +10,59 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                "Courses",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium!
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  "Courses",
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: courses
-                    .map(
-                      (course) => Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: CourseCard(
-                          title: course.title,
-                          iconSrc: course.iconSrc,
-                          color: course.color,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: courses
+                      .map(
+                        (course) => Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: CourseCard(
+                            title: course.title,
+                            iconSrc: course.iconSrc,
+                            color: course.color,
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      )
+                      .toList(),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                "Recent",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  "Recent",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            ...recentCourses
-                .map((course) => Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20, right: 20, bottom: 20),
-                      child: SecondaryCourseCard(
-                        title: course.title,
-                        iconsSrc: course.iconSrc,
-                        colorl: course.color,
-                      ),
-                    ))
-                .toList(),
-          ],
+              ...recentCourses
+                  .map((course) => Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 20),
+                        child: SecondaryCourseCard(
+                          title: course.title,
+                          iconsSrc: course.iconSrc,
+                          colorl: course.color,
+                        ),
+                      ))
+                  .toList(),
+            ],
+          ),
         ),
       ),
     );
