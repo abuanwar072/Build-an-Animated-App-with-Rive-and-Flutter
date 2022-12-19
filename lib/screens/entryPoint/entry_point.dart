@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 
 import '../../model/menu.dart';
-import 'components/animated_bar.dart';
 import 'components/btm_nav_item.dart';
+import 'components/info_card.dart';
 import 'components/side_menu.dart';
 
 class EntryPoint extends StatefulWidget {
@@ -128,22 +127,9 @@ class _EntryPointState extends State<EntryPoint> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.white24,
-                    child: Icon(
-                      CupertinoIcons.person,
-                      color: Colors.white,
-                    ),
-                  ),
-                  title: Text(
-                    "Abu Anwar",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    "YouTuber",
-                    style: TextStyle(color: Colors.white70),
-                  ),
+                const InfoCard(
+                  name: "Abu Anwar",
+                  bio: "YouTuber",
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
@@ -171,6 +157,16 @@ class _EntryPointState extends State<EntryPoint> {
                           },
                         ))
                     .toList(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24, top: 40, bottom: 16),
+                  child: Text(
+                    "History".toUpperCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Colors.white70),
+                  ),
+                ),
               ],
             ),
           ),
