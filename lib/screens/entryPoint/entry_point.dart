@@ -4,7 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 
-import '../model/menu.dart';
+import '../../model/menu.dart';
+import 'components/animated_bar.dart';
+import 'components/btm_nav_item.dart';
+import 'components/side_menu.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -153,65 +156,20 @@ class _EntryPointState extends State<EntryPoint> {
                   ),
                 ),
                 ...sidebarMenus
-                    .map(
-                      (menu) => Column(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 24),
-                            child: Divider(color: Colors.white24, height: 1),
-                          ),
-                          Stack(
-                            children: [
-                              AnimatedPositioned(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.fastOutSlowIn,
-                                width: selectedSideMenu == menu ? 288 : 0,
-                                height: 56,
-                                left: 0,
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFF6792FF),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () {
-                                  menu.rive.status!.change(true);
-                                  setState(() {
-                                    selectedSideMenu = menu;
-                                  });
-                                  Future.delayed(
-                                    const Duration(seconds: 2),
-                                    () {
-                                      menu.rive.status!.change(false);
-                                    },
-                                  );
-                                },
-                                leading: SizedBox(
-                                  height: 36,
-                                  width: 36,
-                                  child: RiveAnimation.asset(
-                                    menu.rive.src,
-                                    artboard: menu.rive.artboard,
-                                    onInit: (artboard) {
-                                      menu.rive.status = getRiveInput(artboard,
-                                          stateMachineName:
-                                              menu.rive.stateMachineName);
-                                    },
-                                  ),
-                                ),
-                                title: Text(
-                                  menu.title,
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                    .map((menu) => SideMenu(
+                          menu: menu,
+                          selectedMenu: selectedSideMenu,
+                          press: () {
+                            chnageState(menu.rive.status!);
+                            setState(() {
+                              selectedSideMenu = menu;
+                            });
+                          },
+                          riveOnInit: (artboard) {
+                            menu.rive.status = getRiveInput(artboard,
+                                stateMachineName: menu.rive.stateMachineName);
+                          },
+                        ))
                     .toList(),
               ],
             ),
@@ -241,33 +199,17 @@ class _EntryPointState extends State<EntryPoint> {
                 bottomNavItems.length,
                 (index) {
                   Menu navBar = bottomNavItems[index];
-                  return GestureDetector(
-                    onTap: () {
+                  return BtmNavItem(
+                    navBar: navBar,
+                    press: () {
                       chnageState(navBar.rive.status!);
                       updateSelectedBtmNav(navBar);
                     },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AnimatedBar(isActive: selectedBottonNav == navBar),
-                        SizedBox(
-                          height: 36,
-                          width: 36,
-                          child: Opacity(
-                            opacity: selctedTab == 0 ? 1 : 0.5,
-                            child: RiveAnimation.asset(
-                              navBar.rive.src,
-                              artboard: navBar.rive.artboard,
-                              onInit: (artboard) {
-                                navBar.rive.status = getRiveInput(artboard,
-                                    stateMachineName:
-                                        navBar.rive.stateMachineName);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    riveOnInit: (artboard) {
+                      navBar.rive.status = getRiveInput(artboard,
+                          stateMachineName: navBar.rive.stateMachineName);
+                    },
+                    selectedNav: selectedBottonNav,
                   );
                 },
               ),
@@ -275,30 +217,6 @@ class _EntryPointState extends State<EntryPoint> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class AnimatedBar extends StatelessWidget {
-  const AnimatedBar({
-    Key? key,
-    required this.isActive,
-  }) : super(key: key);
-
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      margin: const EdgeInsets.only(bottom: 2),
-      duration: const Duration(milliseconds: 200),
-      height: 4,
-      width: isActive ? 20 : 0,
-      decoration: const BoxDecoration(
-          color: Color(0xFF81B4FF),
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          )),
     );
   }
 }
