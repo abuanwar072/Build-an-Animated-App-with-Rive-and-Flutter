@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
@@ -99,14 +98,13 @@ class _EntryPointState extends State<EntryPoint>
       resizeToAvoidBottomInset: false,
       backgroundColor: backgroundColor2,
       body: Stack(
-        // fit: StackFit.expand,
         children: [
           AnimatedPositioned(
             width: 288,
             height: MediaQuery.of(context).size.height,
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
-            left: isSideBarOpen ? -300 : 0,
+            left: isSideBarOpen ? 0 : -288,
             top: 0,
             child: SafeArea(
               child: Container(
@@ -208,50 +206,53 @@ class _EntryPointState extends State<EntryPoint>
               ),
             ),
           ),
-          SafeArea(
-            child: GestureDetector(
-              onTap: () {
-                isMenuOpenInput.value = !isMenuOpenInput.value;
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 200),
+            curve: Curves.fastOutSlowIn,
+            left: isSideBarOpen ? 220 : 0,
+            child: SafeArea(
+              child: GestureDetector(
+                onTap: () {
+                  isMenuOpenInput.value = !isMenuOpenInput.value;
 
-                if (_animationController.value == 0) {
-                  _animationController.forward();
-                } else {
-                  _animationController.reverse();
-                }
+                  if (_animationController.value == 0) {
+                    _animationController.forward();
+                  } else {
+                    _animationController.reverse();
+                  }
 
-                // print(_animationController.value);
-                // setState(() {});
-                setState(() {
-                  isSideBarOpen = !isSideBarOpen;
-                });
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 12),
-                height: 48,
-                width: 48,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 3),
-                      blurRadius: 8,
-                    ),
-                  ],
-                ),
-                child: RiveAnimation.asset(
-                  "assets/RiveAssets/menu_button.riv",
-                  onInit: (artboard) {
-                    final controller = StateMachineController.fromArtboard(
-                        artboard, "State Machine");
+                  setState(() {
+                    isSideBarOpen = !isSideBarOpen;
+                  });
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 12),
+                  height: 48,
+                  width: 48,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(0, 3),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: RiveAnimation.asset(
+                    "assets/RiveAssets/menu_button.riv",
+                    onInit: (artboard) {
+                      final controller = StateMachineController.fromArtboard(
+                          artboard, "State Machine");
 
-                    artboard.addController(controller!);
+                      artboard.addController(controller!);
 
-                    isMenuOpenInput =
-                        controller.findInput<bool>("isOpen") as SMIBool;
-                    isMenuOpenInput.value = true;
-                  },
+                      isMenuOpenInput =
+                          controller.findInput<bool>("isOpen") as SMIBool;
+                      isMenuOpenInput.value = true;
+                    },
+                  ),
                 ),
               ),
             ),
