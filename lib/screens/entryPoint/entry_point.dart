@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
 import 'package:rive_animation/screens/home/home_screen.dart';
+import 'package:rive_animation/utils/rive_utils.dart';
 
 import '../../model/menu.dart';
 import 'components/btm_nav_item.dart';
 import 'components/info_card.dart';
+import 'components/side_bar.dart';
 import 'components/side_menu.dart';
 
 class EntryPoint extends StatefulWidget {
@@ -26,25 +28,6 @@ class _EntryPointState extends State<EntryPoint>
   Menu selectedSideMenu = sidebarMenus.first;
 
   late SMIBool isMenuOpenInput;
-
-  SMIBool getRiveInput(Artboard artboard, {required String stateMachineName}) {
-    StateMachineController? controller =
-        StateMachineController.fromArtboard(artboard, stateMachineName);
-
-    artboard.addController(controller!);
-
-    return controller.findInput<bool>("active") as SMIBool;
-  }
-
-  void chnageState(SMIBool input) {
-    input.change(true);
-    Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        input.change(false);
-      },
-    );
-  }
 
   void updateSelectedBtmNav(Menu menu) {
     if (selectedBottonNav != menu) {
@@ -71,13 +54,13 @@ class _EntryPointState extends State<EntryPoint>
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200))
-          ..addListener(
-            () {
-              setState(() {});
-            },
-          );
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200))
+      ..addListener(
+        () {
+          setState(() {});
+        },
+      );
     scalAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
     animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
@@ -106,86 +89,7 @@ class _EntryPointState extends State<EntryPoint>
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 0 : -288,
             top: 0,
-            child: SafeArea(
-              child: Container(
-                width: 288,
-                height: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF17203A),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30),
-                  ),
-                ),
-                child: DefaultTextStyle(
-                  style: const TextStyle(color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const InfoCard(
-                        name: "Abu Anwar",
-                        bio: "YouTuber",
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, top: 32, bottom: 16),
-                        child: Text(
-                          "Browse".toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white70),
-                        ),
-                      ),
-                      ...sidebarMenus
-                          .map((menu) => SideMenu(
-                                menu: menu,
-                                selectedMenu: selectedSideMenu,
-                                press: () {
-                                  chnageState(menu.rive.status!);
-                                  setState(() {
-                                    selectedSideMenu = menu;
-                                  });
-                                },
-                                riveOnInit: (artboard) {
-                                  menu.rive.status = getRiveInput(artboard,
-                                      stateMachineName:
-                                          menu.rive.stateMachineName);
-                                },
-                              ))
-                          .toList(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, top: 40, bottom: 16),
-                        child: Text(
-                          "History".toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white70),
-                        ),
-                      ),
-                      ...sidebarMenus2
-                          .map((menu) => SideMenu(
-                                menu: menu,
-                                selectedMenu: selectedSideMenu,
-                                press: () {
-                                  chnageState(menu.rive.status!);
-                                  setState(() {
-                                    selectedSideMenu = menu;
-                                  });
-                                },
-                                riveOnInit: (artboard) {
-                                  menu.rive.status = getRiveInput(artboard,
-                                      stateMachineName:
-                                          menu.rive.stateMachineName);
-                                },
-                              ))
-                          .toList(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            child: const SideBar(),
           ),
           Transform(
             alignment: Alignment.center,
@@ -207,7 +111,7 @@ class _EntryPointState extends State<EntryPoint>
             ),
           ),
           AnimatedPositioned(
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 220 : 0,
             child: SafeArea(
@@ -287,11 +191,11 @@ class _EntryPointState extends State<EntryPoint>
                     return BtmNavItem(
                       navBar: navBar,
                       press: () {
-                        chnageState(navBar.rive.status!);
+                        RiveUtils.chnageSMIBoolState(navBar.rive.status!);
                         updateSelectedBtmNav(navBar);
                       },
                       riveOnInit: (artboard) {
-                        navBar.rive.status = getRiveInput(artboard,
+                        navBar.rive.status = RiveUtils.getRiveInput(artboard,
                             stateMachineName: navBar.rive.stateMachineName);
                       },
                       selectedNav: selectedBottonNav,
