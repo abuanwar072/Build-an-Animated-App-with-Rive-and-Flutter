@@ -20,7 +20,6 @@ class EntryPoint extends StatefulWidget {
 
 class _EntryPointState extends State<EntryPoint>
     with SingleTickerProviderStateMixin {
-  int selctedTab = 0;
   bool isSideBarOpen = false;
 
   Menu selectedBottonNav = bottomNavItems.first;
@@ -35,17 +34,6 @@ class _EntryPointState extends State<EntryPoint>
       });
     }
   }
-
-  static Matrix4 _pmat(num pv) {
-    return Matrix4(
-      1.0, 0.0, 0.0, 0.0, //
-      0.0, 1.0, 0.0, 0.0, //
-      0.0, 0.0, 1.0, pv * 0.001, //
-      0.0, 0.0, 0.0, 1.0,
-    );
-  }
-
-  Matrix4 perspective = _pmat(1.0);
 
   late AnimationController _animationController;
   late Animation<double> scalAnimation;
@@ -92,10 +80,10 @@ class _EntryPointState extends State<EntryPoint>
           ),
           Transform(
             alignment: Alignment.center,
-            transform: perspective.scaled(1.0, 1.0, 1.0)
-              ..rotateX(0)
-              ..rotateY(1 * animation.value - 30 * (animation.value) * pi / 180)
-              ..rotateZ(0.0),
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001)
+              ..rotateY(
+                  1 * animation.value - 30 * (animation.value) * pi / 180),
             child: Transform.translate(
               offset: Offset(animation.value * 265, 0),
               child: Transform.scale(
