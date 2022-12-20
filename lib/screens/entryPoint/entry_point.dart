@@ -8,9 +8,8 @@ import 'package:rive_animation/utils/rive_utils.dart';
 
 import '../../model/menu.dart';
 import 'components/btm_nav_item.dart';
-import 'components/info_card.dart';
+import 'components/menu_btn.dart';
 import 'components/side_bar.dart';
-import 'components/side_menu.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -38,7 +37,7 @@ class _EntryPointState extends State<EntryPoint>
   }
 
   static Matrix4 _pmat(num pv) {
-    return new Matrix4(
+    return Matrix4(
       1.0, 0.0, 0.0, 0.0, //
       0.0, 1.0, 0.0, 0.0, //
       0.0, 0.0, 1.0, pv * 0.001, //
@@ -102,10 +101,10 @@ class _EntryPointState extends State<EntryPoint>
               child: Transform.scale(
                 scale: scalAnimation.value,
                 child: const ClipRRect(
-                  child: HomePage(),
                   borderRadius: BorderRadius.all(
                     Radius.circular(24),
                   ),
+                  child: HomePage(),
                 ),
               ),
             ),
@@ -114,51 +113,33 @@ class _EntryPointState extends State<EntryPoint>
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 220 : 0,
-            child: SafeArea(
-              child: GestureDetector(
-                onTap: () {
-                  isMenuOpenInput.value = !isMenuOpenInput.value;
+            top: 16,
+            child: MenuBtn(
+              press: () {
+                isMenuOpenInput.value = !isMenuOpenInput.value;
 
-                  if (_animationController.value == 0) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reverse();
-                  }
+                if (_animationController.value == 0) {
+                  _animationController.forward();
+                } else {
+                  _animationController.reverse();
+                }
 
-                  setState(() {
+                setState(
+                  () {
                     isSideBarOpen = !isSideBarOpen;
-                  });
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(left: 12),
-                  height: 48,
-                  width: 48,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 3),
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: RiveAnimation.asset(
-                    "assets/RiveAssets/menu_button.riv",
-                    onInit: (artboard) {
-                      final controller = StateMachineController.fromArtboard(
-                          artboard, "State Machine");
+                  },
+                );
+              },
+              riveOnInit: (artboard) {
+                final controller = StateMachineController.fromArtboard(
+                    artboard, "State Machine");
 
-                      artboard.addController(controller!);
+                artboard.addController(controller!);
 
-                      isMenuOpenInput =
-                          controller.findInput<bool>("isOpen") as SMIBool;
-                      isMenuOpenInput.value = true;
-                    },
-                  ),
-                ),
-              ),
+                isMenuOpenInput =
+                    controller.findInput<bool>("isOpen") as SMIBool;
+                isMenuOpenInput.value = true;
+              },
             ),
           ),
         ],
