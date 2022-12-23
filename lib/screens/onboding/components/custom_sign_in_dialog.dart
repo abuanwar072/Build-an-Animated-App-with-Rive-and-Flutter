@@ -6,13 +6,6 @@ import 'sign_in_form.dart';
 Future<Object?> customSigninDialog(BuildContext context,
     {required ValueChanged onCLosed}) {
   return showGeneralDialog(
-    // Let's close it while tap outside
-    // Add the close btn at the bottom
-    // We are done with the dialog
-    // want to show the dialog after the btn animation
-    // If you notice you will see before show the dialog
-    // This text go a little up
-    // Let's do that
     barrierDismissible: true,
     barrierLabel: "Sign In",
     context: context,

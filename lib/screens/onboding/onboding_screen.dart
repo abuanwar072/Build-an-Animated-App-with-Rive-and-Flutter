@@ -1,20 +1,11 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rive/rive.dart';
 
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in_dialog.dart';
-import 'components/sign_in_form.dart';
 
-// Welcome back to Episode 2
-// Once user click on the btn
-// We want to show the dialog
-// Now come to the most intaresting part
-// How to show this loading error or success animation
-// I will show you on Episode 3
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -59,8 +50,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
           AnimatedPositioned(
-            // It's time to add the animation
-            // Before that
             top: isSignInDialogShown ? -50 : 0,
             duration: const Duration(milliseconds: 240),
             height: MediaQuery.of(context).size.height,
@@ -99,12 +88,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Future.delayed(
                           const Duration(milliseconds: 800),
                           () {
-                            // We made it but
-                            // also need to set it false once the dialog close
                             setState(() {
                               isSignInDialogShown = true;
                             });
-                            // Let's add the slide animation while dialog shows
+
                             customSigninDialog(
                               context,
                               onCLosed: (_) {
