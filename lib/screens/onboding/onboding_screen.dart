@@ -6,6 +6,9 @@ import 'package:rive/rive.dart';
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in_dialog.dart';
 
+// Let's get started
+// first we need to check is text field is empty or not
+
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
