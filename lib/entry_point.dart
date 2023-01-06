@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animation/constants.dart';
+import 'package:rive_animation/screens/home/home_screen.dart';
 import 'package:rive_animation/utils/rive_utils.dart';
 
 import 'components/animated_bar.dart';
 import 'models/rive_asset.dart';
+
+// Thst's it for Episode 4 :)
+// Let's see what we are gonna do in Episode 5
+// Thanks for watching
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -17,11 +22,10 @@ class _EntryPointState extends State<EntryPoint> {
   RiveAsset selectedBottomNav = bottomNavs.first;
   @override
   Widget build(BuildContext context) {
-    // Now we are on our entry screen
-    // Those are not normal icon, they are Rive asset
-    // Also you can find those icons on Rive community
-    // Let me show you how can we use those
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
+      body: const HomeScreen(),
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(12),
