@@ -7,10 +7,6 @@ import 'package:rive_animation/utils/rive_utils.dart';
 import 'components/animated_bar.dart';
 import 'models/rive_asset.dart';
 
-// Thst's it for Episode 4 :)
-// Let's see what we are gonna do in Episode 5
-// Thanks for watching
-
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
 
