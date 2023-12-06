@@ -1,0 +1,10 @@
+framework module rive_common {
+  umbrella header "rive_common-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module rive_common.__Swift {
+  exclude header "rive_common-Swift.h"
+}

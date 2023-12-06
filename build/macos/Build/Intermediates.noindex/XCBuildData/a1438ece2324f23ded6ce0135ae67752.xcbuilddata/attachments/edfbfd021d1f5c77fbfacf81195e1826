@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Products/Debug/rive_common/rive_common.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Products/Debug/rive_common/rive_common.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "rive_common-Swift.h",
+      'external-contents': "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/unextended-interface-header.h",
+    }]
+    }]
+}

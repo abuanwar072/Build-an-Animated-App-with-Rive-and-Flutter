@@ -1,0 +1,18 @@
+{
+  "" : {
+    "diagnostics" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/rive_common-master.dia",
+    "emit-module-dependencies" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/rive_common-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/rive_common-master-emit-module.dia",
+    "swift-dependencies" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/rive_common-master.swiftdeps"
+  },
+  "/Users/abuanwar/.pub-cache/hosted/pub.dev/rive_common-0.2.8/macos/Classes/RivePlugin.swift" : {
+    "const-values" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.swiftconstvalues",
+    "dependencies" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.d",
+    "diagnostics" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.o",
+    "llvm-bc" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.bc",
+    "object" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.o",
+    "swift-dependencies" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin.swiftdeps",
+    "swiftmodule" : "/Users/abuanwar/Documents/flutter/rive_animation/build/macos/Build/Intermediates.noindex/Pods.build/Debug/rive_common.build/Objects-normal/arm64/RivePlugin~partial.swiftmodule"
+  }
+}
