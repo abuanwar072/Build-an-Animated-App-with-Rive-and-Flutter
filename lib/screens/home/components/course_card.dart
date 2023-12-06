@@ -15,12 +15,12 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       height: 280,
       width: 260,
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,8 +35,8 @@ class CourseCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.w600),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 8),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 12, bottom: 8),
                     child: Text(
                       "Build and animate an iOS app from scratch",
                       style: TextStyle(
@@ -44,13 +44,13 @@ class CourseCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     "61 SECTIONS - 11 HOURS",
                     style: TextStyle(
                       color: Colors.white38,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: List.generate(
                       3,
